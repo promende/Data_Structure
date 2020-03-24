@@ -94,6 +94,7 @@ void traverse(pnode head)
 	while (t != NULL)
 	{
 		char type[20], state[20];
+		int get_time = t->put_time;
 		time_t now_time = time(NULL);
 
 		if (t->type == 1)
@@ -120,9 +121,9 @@ void traverse(pnode head)
 
 		printf("格口类型：%s\t格口编号：%d\t格口状态：%s", type, t->number, state);
 
-		if (now_time - t->put_time >= 60*60*24 && t->state == false)
+		if (now_time - get_time >= 24*60*60 && t->state == false)
 		{
-			printf("  滞留");
+			printf(" 滞留");
 			operation = true;
 			t->retention = true;
 		}
@@ -328,13 +329,13 @@ pnode Read_The_File()
 	while (!feof(data1))
 	{
 		fscanf(data1, "%d %d %d %d %d\n", &type, &number, &state, &retention, &put_time);
-
+		
 		t1->type = type;
 		t1->number = number;
 		t1->state = state;
 		t1->retention = retention;
 		t1->put_time = put_time;
-
+		//printf("%d ", t1->put_time);
 		t1 = t1->next;
 	}
 	
